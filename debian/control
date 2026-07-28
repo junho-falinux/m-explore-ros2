@@ -1,0 +1,22 @@
+Source: ros-jazzy-m-explore-ros2
+Section: misc
+Priority: optional
+Maintainer: Junho Jeong <junho@falinux.com>
+Build-Depends: debhelper-compat (= 13), cmake, ros-jazzy-ament-cmake, ros-jazzy-rosidl-default-generators, ros-jazzy-rclcpp, ros-jazzy-geometry-msgs, ros-jazzy-nav-msgs, ros-jazzy-nav2-msgs, ros-jazzy-nav2-costmap-2d, ros-jazzy-tf2, ros-jazzy-tf2-geometry-msgs, ros-jazzy-visualization-msgs, libboost-thread-dev
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+
+Package: ros-jazzy-explore-lite-msgs
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, ros-jazzy-rosidl-default-runtime
+Description: ROS 2 message definitions for explore_lite
+
+Package: ros-jazzy-explore-lite
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, ros-jazzy-explore-lite-msgs, ros-jazzy-rclcpp, ros-jazzy-geometry-msgs, ros-jazzy-nav-msgs, ros-jazzy-nav2-msgs, ros-jazzy-nav2-costmap-2d, ros-jazzy-tf2, ros-jazzy-tf2-geometry-msgs, ros-jazzy-visualization-msgs
+Description: Frontier exploration for ROS 2
+
+Package: ros-jazzy-multirobot-map-merge
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, ros-jazzy-rclcpp, ros-jazzy-geometry-msgs, ros-jazzy-nav-msgs, ros-jazzy-nav2-msgs, ros-jazzy-nav2-costmap-2d, ros-jazzy-tf2, ros-jazzy-tf2-geometry-msgs
+Description: Multi-robot map merging for ROS 2

@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+export DEB_BUILD_OPTIONS ?= nocheck
+ROS_PREFIX = /opt/ros/jazzy
+STAGE = $(CURDIR)/debian/stage
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	set -e; \
+	. $(ROS_PREFIX)/setup.sh; \
+	cmake -S explore_lite_msgs -B build/explore_lite_msgs -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=$(ROS_PREFIX); \
+	cmake --build build/explore_lite_msgs; \
+	DESTDIR=$(STAGE)/explore_lite_msgs cmake --install build/explore_lite_msgs; \
+	CMAKE_PREFIX_PATH=$(STAGE)/explore_lite_msgs$(ROS_PREFIX):$$CMAKE_PREFIX_PATH cmake -S explore -B build/explore -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=$(ROS_PREFIX); \
+	cmake --build build/explore; \
+	DESTDIR=$(STAGE)/explore cmake --install build/explore; \
+	cmake -S map_merge -B build/map_merge -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=$(ROS_PREFIX); \
+	cmake --build build/map_merge; \
+	DESTDIR=$(STAGE)/map_merge cmake --install build/map_merge
+
+override_dh_auto_install:
+	install -d debian/ros-jazzy-explore-lite-msgs debian/ros-jazzy-explore-lite debian/ros-jazzy-multirobot-map-merge
+	cp -a $(STAGE)/explore_lite_msgs/. debian/ros-jazzy-explore-lite-msgs/
+	cp -a $(STAGE)/explore/. debian/ros-jazzy-explore-lite/
+	cp -a $(STAGE)/map_merge/. debian/ros-jazzy-multirobot-map-merge/
+
+override_dh_auto_test:
+	:
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info -l$(ROS_PREFIX)/lib:$(CURDIR)/debian/ros-jazzy-explore-lite-msgs/opt/ros/jazzy/lib:$(CURDIR)/debian/ros-jazzy-explore-lite/opt/ros/jazzy/lib:$(CURDIR)/debian/ros-jazzy-multirobot-map-merge/opt/ros/jazzy/lib

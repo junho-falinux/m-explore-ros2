@@ -1,0 +1,5 @@
+ros-jazzy-m-explore-ros2 (1.0.0-0noble) noble; urgency=medium
+
+  * Add root-level multi-binary Debian packaging.
+
+ -- Junho Jeong <junho@falinux.com>  Tue, 28 Jul 2026 00:00:00 +0000
